@@ -21,14 +21,14 @@ class Login extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 40, left: 20, right: 20, bottom: 50),
+                    top: 8, left: 20, right: 20, bottom: 50),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/logo1.jpg',
-                      height: 150,
-                      width: 150,
+                      'assets/images/loginicon.png',
+                      height: MediaQuery.of(context).size.width * 0.50,
+                      width: MediaQuery.of(context).size.width * 0.50,
                     ),
                     const SizedBox(
                       height: 10,

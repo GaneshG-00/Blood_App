@@ -35,9 +35,9 @@ class _SplashState extends State<Splash> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo1.jpg',
-              height: 200,
-              width: 200,
+              'assets/images/loginicon.png',
+              height: MediaQuery.of(context).size.width * 0.50,
+              width: MediaQuery.of(context).size.width * 0.50,
             ),
             TyperAnimatedTextKit(
               text: const [

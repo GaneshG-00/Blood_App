@@ -1,3 +1,4 @@
+import 'package:bloodlink/login.dart';
 import 'package:bloodlink/splash.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class BloodLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-       home: Splash(),
+      home: Splash(),
     );
   }
 }

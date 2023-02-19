@@ -70,7 +70,7 @@ class Login extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: ((context) => const Home())));
@@ -96,7 +96,7 @@ class Login extends StatelessWidget {
                       const Text("Doesn't have an account"),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: ((context) =>

@@ -1,8 +1,11 @@
 import 'package:bloodlink/login.dart';
 import 'package:bloodlink/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(BloodLink());
 }
 

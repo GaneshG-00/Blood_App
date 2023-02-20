@@ -1,10 +1,18 @@
 import 'package:bloodlink/home.dart';
 import 'package:bloodlink/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  TextEditingController _emailAddress = TextEditingController();
+  TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +52,11 @@ class Login extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
+                          controller: _emailAddress,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'Username'),
+                              hintText: 'E-mail Address'),
                           style: const TextStyle(height: 1),
                         )),
                     const SizedBox(
@@ -56,6 +65,7 @@ class Login extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: TextField(
+                        controller: _password,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
@@ -70,10 +80,19 @@ class Login extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => const Home())));
+                        FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: _emailAddress.text,
+                                password: _password.text)
+                            .then((value) {
+                          print('SignIn successfull');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => const Home())));
+                        }).onError((error, stackTrace) {
+                          print("Error:${error.toString()}");
+                        });
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(

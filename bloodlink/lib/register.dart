@@ -1,9 +1,20 @@
 import 'package:bloodlink/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class RegisterFirst extends StatelessWidget {
+class RegisterFirst extends StatefulWidget {
   const RegisterFirst({super.key});
+
+  @override
+  State<RegisterFirst> createState() => _RegisterFirstState();
+}
+
+class _RegisterFirstState extends State<RegisterFirst> {
+  TextEditingController _emailAddress = TextEditingController();
+  TextEditingController _password1 = TextEditingController();
+  TextEditingController _password2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +40,18 @@ class RegisterFirst extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: _emailAddress,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'Username'))),
+                              hintText: 'E-mail Address'))),
                   const SizedBox(
                     height: 15,
                   ),
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: _password1,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -47,6 +60,7 @@ class RegisterFirst extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: _password2,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -68,11 +82,24 @@ class RegisterFirst extends StatelessWidget {
                       const SizedBox(width: 60),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        const RegisterSecond())));
+                            if (_password1 == _password2) {
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailAddress.text,
+                                      password: _password2.text)
+                                  .then((value) {
+                                print("SignUp Successfull");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            const RegisterSecond())));
+                              }).onError((error, stackTrace) {
+                                print("Error SignUp:${error.toString()}");
+                              });
+                            } else {
+                              print("Password Doesn't Match");
+                            }
                           },
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all(
@@ -308,10 +335,9 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        const Home())));
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => const Home())));
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(

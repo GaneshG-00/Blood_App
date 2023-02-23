@@ -82,7 +82,7 @@ class _RegisterFirstState extends State<RegisterFirst> {
                       const SizedBox(width: 60),
                       ElevatedButton(
                           onPressed: () {
-                            if (_password1 == _password2) {
+                            if (_password1.text == _password2.text) {
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                       email: _emailAddress.text,

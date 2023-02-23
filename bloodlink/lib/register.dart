@@ -97,7 +97,7 @@ class _RegisterFirstState extends State<RegisterFirst> {
                               }).onError((error, stackTrace) {
                                 print("Error SignUp:${error.toString()}");
                               });
-                            } else {
+                            } else{
                               print("Password Doesn't Match");
                             }
                           },

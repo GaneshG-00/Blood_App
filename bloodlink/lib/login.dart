@@ -13,6 +13,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _emailAddress = TextEditingController();
   TextEditingController _password = TextEditingController();
+  var errormessage = "";
+  bool _isvisible = false;
+  bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +51,15 @@ class _LoginState extends State<Login> {
                           fontSize: 30,
                           fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: _isvisible,
+                      child: Text(
+                        '$errormessage',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
                     Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
@@ -56,7 +67,12 @@ class _LoginState extends State<Login> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'E-mail Address'),
+                              hintText: 'E-mail Address',
+                              prefixIcon: const Icon(
+                                Icons.mail,
+                                color: Color.fromARGB(255, 120, 118, 118),
+                                size: 20,
+                              )),
                           style: const TextStyle(height: 1),
                         )),
                     const SizedBox(
@@ -66,12 +82,30 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: TextField(
                         controller: _password,
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          hintText: 'Password',
-                        ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.lock,
+                              color: Color.fromARGB(255, 120, 118, 118),
+                              size: 20,
+                            ),
+                            hintText: 'Password',
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color:
+                                      const Color.fromARGB(255, 120, 118, 118),
+                                ))),
                         style: const TextStyle(height: 1),
                       ),
                     ),
@@ -86,12 +120,21 @@ class _LoginState extends State<Login> {
                                 password: _password.text)
                             .then((value) {
                           print('SignIn successfull');
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: ((context) => const Home())));
                         }).onError((error, stackTrace) {
                           print("Error:${error.toString()}");
+                          setState(() {
+                            _isvisible = true;
+                          });
+                          Future.delayed(const Duration(milliseconds: 400), () {
+                            setState(() {
+                              _isvisible = false;
+                            });
+                          });
+                          errormessage = "E-mail or password Doesn't match";
                         });
                       },
                       style: ButtonStyle(
@@ -106,7 +149,10 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      child: const Text('Login'),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(fontSize: 17),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,

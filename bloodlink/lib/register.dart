@@ -1,4 +1,5 @@
 import 'package:bloodlink/home.dart';
+import 'package:bloodlink/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,10 @@ class _RegisterFirstState extends State<RegisterFirst> {
   TextEditingController _emailAddress = TextEditingController();
   TextEditingController _password1 = TextEditingController();
   TextEditingController _password2 = TextEditingController();
+  var errormessage = "";
+  bool _isvisible = false;
+  bool _passwordVisible1 = false;
+  bool _passwordVisible2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,13 @@ class _RegisterFirstState extends State<RegisterFirst> {
                   const SizedBox(
                     height: 30,
                   ),
+                  Visibility(
+                    visible: _isvisible,
+                    child: Text(
+                      '$errormessage',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
@@ -44,7 +56,12 @@ class _RegisterFirstState extends State<RegisterFirst> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'E-mail Address'))),
+                              hintText: 'E-mail Address',
+                              prefixIcon: const Icon(
+                                Icons.mail,
+                                color: Color.fromARGB(255, 120, 118, 118),
+                                size: 20,
+                              )))),
                   const SizedBox(
                     height: 15,
                   ),
@@ -52,19 +69,57 @@ class _RegisterFirstState extends State<RegisterFirst> {
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
                           controller: _password1,
+                          obscureText: !_passwordVisible1,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'Create password'))),
+                              hintText: 'Create password',
+                              prefixIcon: const Icon(
+                                Icons.lock,
+                                color: Color.fromARGB(255, 120, 118, 118),
+                                size: 20,
+                              ),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _passwordVisible1 = !_passwordVisible1;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _passwordVisible1
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: const Color.fromARGB(
+                                        255, 120, 118, 118),
+                                  ))))),
                   const SizedBox(height: 15),
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
                           controller: _password2,
+                          obscureText: !_passwordVisible2,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
-                              hintText: 'Confirm password'))),
+                              hintText: 'Confirm password',
+                              prefixIcon: const Icon(
+                                Icons.lock,
+                                color: Color.fromARGB(255, 120, 118, 118),
+                                size: 20,
+                              ),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _passwordVisible2 = !_passwordVisible2;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _passwordVisible2
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: const Color.fromARGB(
+                                        255, 120, 118, 118),
+                                  ))))),
                   const SizedBox(
                     height: 20,
                   ),
@@ -72,8 +127,15 @@ class _RegisterFirstState extends State<RegisterFirst> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => const Login())));
+                          },
                           style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color.fromARGB(255, 116, 17, 10)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius:
@@ -82,14 +144,14 @@ class _RegisterFirstState extends State<RegisterFirst> {
                       const SizedBox(width: 60),
                       ElevatedButton(
                           onPressed: () {
-                            if (_password1 == _password2) {
+                            if (_password1.text == _password2.text) {
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                       email: _emailAddress.text,
                                       password: _password2.text)
                                   .then((value) {
                                 print("SignUp Successfull");
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: ((context) =>
@@ -97,11 +159,22 @@ class _RegisterFirstState extends State<RegisterFirst> {
                               }).onError((error, stackTrace) {
                                 print("Error SignUp:${error.toString()}");
                               });
-                            } else {
-                              print("Password Doesn't Match");
+                            } else if (_password1.text != _password2.text) {
+                              setState(() {
+                                _isvisible = true;
+                              });
+                              Future.delayed(const Duration(milliseconds: 400),
+                                  () {
+                                setState(() {
+                                  _isvisible = false;
+                                });
+                              });
+                              errormessage = "Passwords Doesn't Match";
                             }
                           },
                           style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color.fromARGB(255, 116, 17, 10)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius:
@@ -334,7 +407,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: ((context) => const Home())));

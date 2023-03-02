@@ -1,7 +1,13 @@
+import 'package:bloodlink/account.dart';
+import 'package:bloodlink/home.dart';
 import 'package:bloodlink/login.dart';
+import 'package:bloodlink/register.dart';
 import 'package:bloodlink/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'alfi.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +22,10 @@ class BloodLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Splash(),
+      home: const RegisterSecond(),
+      routes: {
+        '/login': (context) => Login(),
+      },
     );
   }
 }

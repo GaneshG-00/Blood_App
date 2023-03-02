@@ -1,5 +1,6 @@
 import 'package:bloodlink/account.dart';
 import 'package:bloodlink/donors.dart';
+import 'package:bloodlink/drawer.dart';
 import 'package:bloodlink/requests.dart';
 import 'package:bloodlink/urgent.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
   static final List<Widget> _widgetOptions = <Widget>[
-    Donors(),
-    Urgent(),
-    Requests(),
+    const Donors(),
+    const Urgent(),
+    const Requests(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -29,7 +30,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 116, 17, 10),
-          leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
           title: const Text(
             'BLOODLINK',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+        drawer: const NavigationDrawerWidget(),
         body: IndexedStack(
           index: _selectedIndex,
           children: _widgetOptions,

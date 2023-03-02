@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterFirst extends StatefulWidget {
   const RegisterFirst({super.key});
@@ -215,6 +216,13 @@ class _RegisterSecondState extends State<RegisterSecond> {
     }
   }
 
+  TextEditingController fullname = TextEditingController();
+  TextEditingController mobilenumber = TextEditingController();
+  TextEditingController state = TextEditingController();
+  TextEditingController district = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -232,7 +240,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                     height: 20,
                   ),
                   const Text(
-                    'Enter Your Details',
+                    'Create Profile',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color.fromARGB(255, 120, 118, 118),
@@ -243,6 +251,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: fullname,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -279,10 +288,22 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: mobilenumber,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
                               hintText: 'Mobile Number'))),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                          controller: email,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                              hintText: 'Email'))),
                   const SizedBox(
                     height: 15,
                   ),
@@ -378,6 +399,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: state,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -388,6 +410,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: district,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -398,6 +421,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
+                          controller: pincode,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),

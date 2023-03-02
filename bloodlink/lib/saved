@@ -1,0 +1,16 @@
+
+//logout Function with button
+      // body: Center(
+      //   child: ElevatedButton(
+      //     onPressed: () {
+      //       FirebaseAuth.instance.signOut();
+      //       Navigator.pushNamedAndRemoveUntil(
+      //           context, '/login', (route) => false);
+      //     },
+      //     style: ButtonStyle(
+      //       backgroundColor: MaterialStateProperty.all<Color>(
+      //           const Color.fromARGB(255, 116, 17, 10)),
+      //     ),
+      //     child: const Text('LogOut'),
+      //   ),
+      // ),

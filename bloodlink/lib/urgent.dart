@@ -10,6 +10,7 @@ class Urgent extends StatefulWidget {
 }
 
 class _UrgentState extends State<Urgent> {
+  // ignore: prefer_typing_uninitialized_variables
   var _dropdownValue;
   void dropdownCallback(selectedValue) {
     if (selectedValue is String) {
@@ -146,7 +147,7 @@ class _UrgentState extends State<Urgent> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             const Padding(
@@ -158,7 +159,7 @@ class _UrgentState extends State<Urgent> {
                   ),
                   style: TextStyle(height: 1),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             const Padding(
@@ -198,7 +199,7 @@ class _UrgentState extends State<Urgent> {
                     style: TextStyle(height: 1),
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(

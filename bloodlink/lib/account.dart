@@ -1,11 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
+import 'global.dart';
 
-class Account extends StatelessWidget {
+class Account extends StatefulWidget {
   const Account({super.key});
 
+  @override
+  State<Account> createState() => _AccountState();
+}
+
+class _AccountState extends State<Account> {
+  DocumentReference docRef =
+      FirebaseFirestore.instance.collection('USERS').doc(docId);
+  TextEditingController profilenamecontroller =
+      TextEditingController(text: '$fullname');
+  TextEditingController profileemailcontroller =
+      TextEditingController(text: '$emailaddress');
+  TextEditingController profilebloodcontroller =
+      TextEditingController(text: '$Bloodgroup');
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,7 +58,7 @@ class Account extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -55,13 +70,13 @@ class Account extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              "Ganesh G",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            Text(
+              "$fullname",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            const Text(
-              "ganesh.g30.3.2003@gmail.com",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+            Text(
+              "$emailaddress",
+              style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
             ),
             const SizedBox(
               height: 10,
@@ -75,10 +90,11 @@ class Account extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
+            Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: profilenamecontroller,
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Name',
                       prefixIcon: Icon(
@@ -86,15 +102,16 @@ class Account extends StatelessWidget {
                         color: Color.fromARGB(255, 120, 118, 118),
                         size: 20,
                       )),
-                  style: TextStyle(height: 1),
+                  style: const TextStyle(height: 1),
                 )),
             const SizedBox(
               height: 10,
             ),
-            const Padding(
+            Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: profileemailcontroller,
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           // borderRadius: BorderRadius.circular(50)
                           ),
@@ -104,15 +121,16 @@ class Account extends StatelessWidget {
                         color: Color.fromARGB(255, 120, 118, 118),
                         size: 20,
                       )),
-                  style: TextStyle(height: 1),
+                  style: const TextStyle(height: 1),
                 )),
             const SizedBox(
               height: 10,
             ),
-            const Padding(
+            Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: profilebloodcontroller,
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           // borderRadius: BorderRadius.circular(50)
                           ),
@@ -122,7 +140,7 @@ class Account extends StatelessWidget {
                         color: Color.fromARGB(255, 120, 118, 118),
                         size: 20,
                       )),
-                  style: TextStyle(height: 1),
+                  style: const TextStyle(height: 1),
                 )),
             const SizedBox(
               height: 25,
@@ -131,11 +149,18 @@ class Account extends StatelessWidget {
               width: 200,
               height: 40,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    docRef.update({
+                      "Name": profilenamecontroller.text,
+                      "E-mail Address": profileemailcontroller.text,
+                      "Blood Group": profilebloodcontroller.text,
+                    });
+                    getData(docId);
+                  },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 120, 118, 118),
+                      backgroundColor: const Color.fromARGB(255, 120, 118, 118),
                       side: BorderSide.none,
-                      shape: StadiumBorder()),
+                      shape: const StadiumBorder()),
                   child: const Text(
                     "Save",
                     style: TextStyle(

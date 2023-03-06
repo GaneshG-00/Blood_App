@@ -19,7 +19,8 @@ class _SplashState extends State<Splash> {
   }
 
   _navigatetohome() async {
-    await Future.delayed(Duration(milliseconds: 3000), () {});
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: ((context) => const Login())));
   }
@@ -39,6 +40,7 @@ class _SplashState extends State<Splash> {
               height: MediaQuery.of(context).size.width * 0.50,
               width: MediaQuery.of(context).size.width * 0.50,
             ),
+            // ignore: deprecated_member_use
             TyperAnimatedTextKit(
               text: const [
                 "BLOODLINK",
@@ -49,7 +51,7 @@ class _SplashState extends State<Splash> {
                 color: Color.fromARGB(255, 116, 17, 10),
               ),
               textAlign: TextAlign.start,
-              speed: Duration(milliseconds: 150),
+              speed: const Duration(milliseconds: 150),
               isRepeatingAnimation: false,
             ),
           ],

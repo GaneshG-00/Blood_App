@@ -11,8 +11,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _emailAddress = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _emailAddress = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   var errormessage = "";
   bool _isvisible = false;
   bool _passwordVisible = false;
@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
                     Visibility(
                       visible: _isvisible,
                       child: Text(
-                        '$errormessage',
+                        errormessage,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),

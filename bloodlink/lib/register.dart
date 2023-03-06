@@ -1,10 +1,12 @@
 import 'package:bloodlink/home.dart';
 import 'package:bloodlink/login.dart';
+import 'package:bloodlink/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'global.dart';
 
 class RegisterFirst extends StatefulWidget {
   const RegisterFirst({super.key});
@@ -202,11 +204,13 @@ class RegisterSecond extends StatefulWidget {
 
 class _RegisterSecondState extends State<RegisterSecond> {
   TextEditingController dateinput = TextEditingController();
+  @override
   void initState() {
     dateinput.text = "";
     super.initState();
   }
 
+  // ignore: prefer_typing_uninitialized_variables
   var _dropdownValue;
   void dropdownCallback(selectedValue) {
     if (selectedValue is String) {
@@ -216,12 +220,15 @@ class _RegisterSecondState extends State<RegisterSecond> {
     }
   }
 
-  TextEditingController fullname = TextEditingController();
-  TextEditingController mobilenumber = TextEditingController();
-  TextEditingController state = TextEditingController();
-  TextEditingController district = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController pincode = TextEditingController();
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('USERS');
+
+  TextEditingController fullnamecontroller = TextEditingController();
+  TextEditingController mobilenumbercontroller = TextEditingController();
+  TextEditingController statecontroller = TextEditingController();
+  TextEditingController districtcontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController pincodecontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +258,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: fullname,
+                          controller: fullnamecontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -288,7 +295,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: mobilenumber,
+                          controller: mobilenumbercontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -299,7 +306,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: email,
+                          controller: emailcontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -399,7 +406,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: state,
+                          controller: statecontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -410,7 +417,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: district,
+                          controller: districtcontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -421,7 +428,7 @@ class _RegisterSecondState extends State<RegisterSecond> {
                   Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
-                          controller: pincode,
+                          controller: pincodecontroller,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),
@@ -430,11 +437,48 @@ class _RegisterSecondState extends State<RegisterSecond> {
                     height: 15,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const Home())));
+                    onPressed: () async {
+                      final String name = fullnamecontroller.text;
+                      final String dob = dateinput.text;
+                      final String mobilenumber = mobilenumbercontroller.text;
+                      final String email = emailcontroller.text;
+                      final String bloodgroup = _dropdownValue;
+                      final String state = statecontroller.text;
+                      final String district = districtcontroller.text;
+                      final String pincode = pincodecontroller.text;
+                      final user = FirebaseAuth.instance.currentUser;
+                      userId = user?.uid;
+                      print("User Id:$userId");
+
+                      if (name != null &&
+                          dob != null &&
+                          mobilenumber != null &&
+                          email != null &&
+                          bloodgroup != null &&
+                          state != null &&
+                          district != null &&
+                          pincode != null) {
+                        await _users.add({
+                          "Name": name,
+                          "Date": dob,
+                          "Mobile Number": mobilenumber,
+                          "E-mail Address": email,
+                          "Blood Group": bloodgroup,
+                          "State": state,
+                          "District": district,
+                          "Pincode": pincode,
+                          "User Id": userId
+                        }).then((DocumentReference doc) {
+                          docId = doc.id;
+                          print("my document Id is ${doc.id}");
+                        });
+                        getData(docId);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const Home())));
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(

@@ -1,4 +1,5 @@
 import 'package:bloodlink/donors.dart';
+import 'package:bloodlink/global.dart';
 import 'package:bloodlink/requests.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +11,24 @@ class NavigationDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    var profileName = "Ganesh G";
+    var profileName = fullname;
     return SafeArea(
       child: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: [
         DrawerHeader(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 116, 17, 10),
+              color: Color.fromARGB(255, 161, 88, 88),
+              // border: Border(
+              //     bottom: BorderSide(
+              //         color: Color.fromARGB(255, 231, 29, 15), width: 3.0),
+              //     top: BorderSide(
+              //         color: Color.fromARGB(255, 116, 17, 10), width: 3.0),
+              //     left: BorderSide(
+              //         color: Color.fromARGB(255, 116, 17, 10), width: 3.0),
+              //     right: BorderSide(
+              //         color: Color.fromARGB(255, 116, 17, 10), width: 3.0))
             ),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child: Row(children: [
               const SizedBox(
                 width: 100,
                 height: 100,
@@ -36,8 +46,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   Text(
-                    "${profileName}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    "$profileName",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ],
               ),
@@ -142,7 +153,7 @@ class NavigationDrawerWidget extends StatelessWidget {
         ),
         ListTile(
           title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 1.0),
+            padding: const EdgeInsets.symmetric(horizontal: 1.0),
             child: Container(
               height: 1.0,
               width: screenSize.width,

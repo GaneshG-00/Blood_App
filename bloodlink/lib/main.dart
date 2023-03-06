@@ -7,11 +7,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(BloodLink());
+  runApp(const BloodLink());
 }
 
 class BloodLink extends StatelessWidget {
@@ -23,7 +22,7 @@ class BloodLink extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const RegisterSecond(),
       routes: {
-        '/login': (context) => Login(),
+        '/login': (context) => const Login(),
       },
     );
   }
